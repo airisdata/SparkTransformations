@@ -1,0 +1,39 @@
+val originalRDD = sc.parallelize(List("Data1", "Data2", "Data4", "Data5", "Data6", "Bacon", "Hortonworks", "Hadoop", 
+"Spark", "Tungesten",
+"SQL"), 4)
+
+val flatRDD = originalRDD.flatMap(_.split(" "))
+
+originalRDD.collect().foreach(println)
+
+originalRDD.count()
+
+originalRDD.first()
+
+originalRDD.take(2)
+
+originalRDD.takeSample(true,5,7634184)
+
+val mapped =   originalRDD.mapPartitionsWithIndex{
+                       (index, iterator) => {
+                           println("Index -> " + index)
+                          val myList = iterator.toList
+                           myList.map(x => x + " -> " + index).iterator
+                        }
+                     }
+                     
+mapped.take(5)
+
+val rddSpark = sc.parallelize(List("SQL","Streaming","GraphX", "MLLib", "Bagel", 
+"SparkR","Python","Scala","Java", "Alluxio", "Tungsten", "Zeppelin"))
+
+val rddHadoop = sc.parallelize(List("HDFS", "YARN", "TEZ", "Hive", "HBase", "Pig", "Atlas", 
+"Storm", "Accumulo", "Ranger", "Phoenix", "MapReduce", "Slider", "Flume", "Kafka", "Oozie", "Sqoop", "Falcon",
+"Knox", "Ambari", "Zookeeper", "Cloudbreak", "SQL", "Java", "Scala", "Python"))
+
+val bigDataRDD = rddHadoop.union(rddSpark)
+bigDataRDD.collect()
+
+
+
+// Comment:   For access data logs, unzip before using
